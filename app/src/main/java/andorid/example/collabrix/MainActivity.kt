@@ -2,6 +2,7 @@ package andorid.example.collabrix
 
 import andorid.example.collabrix.View.StudentUi.Pages.BrowseResearch
 import andorid.example.collabrix.View.StudentUi.Pages.MyApplications
+import andorid.example.collabrix.View.StudentUi.Pages.ProfileEdit
 import andorid.example.collabrix.View.StudentUi.Pages.ProfilePage
 import andorid.example.collabrix.View.StudentUi.Pages.StudentDashboard
 import andorid.example.collabrix.View.authentication.ForgotPassword
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         composable("BrowseResearch"){ BrowseResearch(navController) }
                         composable("MyApplication"){ MyApplications(navController) }
                         composable("MyProfile"){ ProfilePage(navController) }
+                        composable("ProfileEdit"){ ProfileEdit(navController) }
                     }
                 }
 

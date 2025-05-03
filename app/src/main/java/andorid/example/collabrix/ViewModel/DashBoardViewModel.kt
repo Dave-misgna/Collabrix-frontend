@@ -1,6 +1,6 @@
 package andorid.example.collabrix.ViewModel
 
-import andorid.example.collabrix.Model.ActiveProjects.ActiveProjects
+import andorid.example.collabrix.Model.StudentModel.ActiveProjects
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +27,7 @@ class DashboardViewModel : ViewModel() {
 
     }
 
-    fun totalProjects(projects: ActiveProjects){
+    private fun totalProjects(projects: ActiveProjects){
         _totalAppliedProjects.value += projects
     }
 }

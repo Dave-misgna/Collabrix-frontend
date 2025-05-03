@@ -88,7 +88,7 @@ fun SideBar(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 24.dp).clickable { onMenuItemClick("BrowseResearch") }
 
         ) {
             Text(
@@ -98,9 +98,7 @@ fun SideBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .clickable {
-                        onMenuItemClick("BrowseResearch")
-                    }
+
             )
         }
 
@@ -110,7 +108,9 @@ fun SideBar(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .clickable {  onMenuItemClick("MyApplication")}
         ) {
             Text(
                 text = ("My Applications"),
@@ -119,9 +119,7 @@ fun SideBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .clickable {
-                        onMenuItemClick("MyApplication")
-                    }
+
             )
         }
 
@@ -131,7 +129,9 @@ fun SideBar(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .clickable { onMenuItemClick("MyProfile") }
         ) {
             Text(
                 text = ("Profile"),
@@ -140,9 +140,7 @@ fun SideBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .clickable {
-                        onMenuItemClick("MyProfile")
-                    }
+
             )
         }
 

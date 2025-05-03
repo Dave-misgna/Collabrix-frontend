@@ -1,6 +1,6 @@
 package andorid.example.collabrix.View.StudentUi
 
-import andorid.example.collabrix.Model.ActiveProjects.ActiveProjects
+import andorid.example.collabrix.Model.StudentModel.ActiveProjects
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
