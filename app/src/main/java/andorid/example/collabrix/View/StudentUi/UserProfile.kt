@@ -1,9 +1,15 @@
 package andorid.example.collabrix.View.StudentUi
 
+import andorid.example.collabrix.Model.StudentModel.AboutMe
+import andorid.example.collabrix.Model.StudentModel.Education
+import andorid.example.collabrix.Model.StudentModel.Skills
 import andorid.example.collabrix.Model.StudentModel.StudentProfile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -98,23 +104,97 @@ fun DeleteAccount(){
         modifier = Modifier.fillMaxWidth()
         ) {
         Spacer(modifier = Modifier.height(8.dp))
-        Column(modifier = Modifier.padding(horizontal = 20.dp), ) {
+        Column(modifier = Modifier.padding( 20.dp), ) {
             Text("Danger Zone", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.height(5.dp))
-            Text("Actions are dangerous.....")
+            Text("Actions  here cannot be undone")
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Button(onClick = {},
+                shape = RoundedCornerShape(8.dp,),
+                modifier = Modifier.fillMaxWidth())
+            {
+                Text("Delete Account", fontSize = 24.sp)
+            }
 
 
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = {},
-            shape = RoundedCornerShape(8.dp,),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp))
-        {
-            Text("Delete Account", fontSize = 24.sp)
-        }
+
+
 
 
     }
 }
+
+@Composable
+fun StudentDescription(aboutme: AboutMe){
+    Card(
+        elevation = CardDefaults.cardElevation(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.height(6.dp))
+        Text("About Me", fontSize = 30.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp))
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(aboutme.description, modifier = Modifier.padding(10.dp))
+
+
+
+    }
+
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun UserSkills(skill: List<Skills>) {
+    Card(
+        elevation = CardDefaults.cardElevation(12.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+
+    ) {
+        Text("Skills", fontSize = 30.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(10.dp))
+        FlowRow(
+            modifier = Modifier.padding(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            skill.forEach { skills ->
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.Gray),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = skills.skill,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EducationalHistory(education: Education){
+    Card (
+        elevation = CardDefaults.cardElevation(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ){
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.padding(10.dp)
+        ) {
+            Text("Education", fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Text(education.college, fontSize = 24.sp)
+            Text(education.department,fontSize = 24.sp)
+            Text(education.year,fontSize = 24.sp)
+
+
+        }
+
+    }
+}
+
 

@@ -68,7 +68,7 @@ fun SideBar(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 24.dp).clickable { onMenuItemClick("studentdashboard") }
         ) {
             Text(
                 text = ("Dashboard"),
@@ -77,9 +77,7 @@ fun SideBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .clickable {
-                        onMenuItemClick("studentdashboard")
-                    }
+
             )
         }
 

@@ -2,8 +2,11 @@ package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
 import andorid.example.collabrix.View.StudentUi.DeleteAccount
+import andorid.example.collabrix.View.StudentUi.EducationalHistory
 import andorid.example.collabrix.View.StudentUi.SideBar
+import andorid.example.collabrix.View.StudentUi.StudentDescription
 import andorid.example.collabrix.View.StudentUi.UserProfile
+import andorid.example.collabrix.View.StudentUi.UserSkills
 import andorid.example.collabrix.ViewModel.ProfileViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,8 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,11 +40,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -153,6 +151,20 @@ fun ProfilePage(
                     Spacer(modifier=Modifier.height(18.dp))
 
                     DeleteAccount()
+
+                    Spacer(modifier=Modifier.height(18.dp))
+
+                    StudentDescription(aboutstudent)
+
+                    Spacer(modifier=Modifier.height(18.dp))
+
+                    UserSkills(studentskills)
+
+                    Spacer(modifier=Modifier.height(18.dp))
+
+                    EducationalHistory(educationhistory)
+
+
 
 
 

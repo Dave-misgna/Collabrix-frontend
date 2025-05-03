@@ -27,7 +27,8 @@ class ProfileViewModel: ViewModel(){
     // for the aboutMe Card
     private val _about = MutableStateFlow(AboutMe(
         id = "1",
-        description = "I am a passionate mobile developer focused on Android and backend systems."
+        description = "I'm a Software Engineering student with a focus on machine learning and data science. " +
+                "I'm passionate about using technology to solve real-world problems and am looking for research opportunities to apply my skills."
     ))
     val about: StateFlow<AboutMe> = _about
 
@@ -40,12 +41,12 @@ class ProfileViewModel: ViewModel(){
         id = "1",
         college = "Addis Ababa University",
         department = "Software Enginnering",
-        year = "2023-"
+        year = "2023 - Process"
     ))
     val educationHistory:StateFlow<Education> = _educationHistory
 
     init {
-
+        LoadSkills()
     }
     private fun LoadSkills(){
         _skill.value = listOf(

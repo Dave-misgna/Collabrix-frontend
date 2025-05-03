@@ -15,6 +15,7 @@ class DashboardViewModel : ViewModel() {
 
     init {
         loadActiveProjects()
+//        totalProjects(totalAppliedProjects)
     }
 
     private fun loadActiveProjects() {
@@ -27,7 +28,7 @@ class DashboardViewModel : ViewModel() {
 
     }
 
-    private fun totalProjects(projects: ActiveProjects){
+    private fun totalProjects(projects: List<ActiveProjects>){
         _totalAppliedProjects.value += projects
     }
 }
