@@ -113,6 +113,10 @@ fun ProfilePage(
                     Text("Profile Setting", fontSize = 26.sp, fontWeight = FontWeight.W700)
                     Spacer(modifier = Modifier.height(10.dp))
                     Text("Manage your personal information and account")
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+
                 }
             }
         }

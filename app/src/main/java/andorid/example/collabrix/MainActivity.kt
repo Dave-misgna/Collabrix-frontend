@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "MyProfile"
+                        startDestination = "studentdashboard"
                     ) {
                         composable("landingpage") { LandingPage(navController) }
                         composable("signup") { SignUp(navController) }
