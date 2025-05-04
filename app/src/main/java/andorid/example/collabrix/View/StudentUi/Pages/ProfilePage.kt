@@ -63,7 +63,6 @@ fun ProfilePage(
 
 
 
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -124,7 +123,7 @@ fun ProfilePage(
             LazyColumn(
                 modifier = Modifier
                     .padding(innerpadding)
-                    .padding(horizontal = 30.dp, vertical = 12.dp)
+                    .padding(horizontal = 30.dp)
                     .fillMaxSize()
             ){
                 item{

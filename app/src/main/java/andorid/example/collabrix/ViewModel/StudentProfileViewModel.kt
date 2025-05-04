@@ -65,5 +65,21 @@ class ProfileViewModel: ViewModel(){
         )
     }
 
+    fun updateStudentProfile(updated: StudentProfile) {
+        _studentcard.value = updated
+    }
+
+    fun updateAboutMe(updated: AboutMe) {
+        _about.value = updated
+    }
+
+    fun updateSkills(updatedSkills: List<Skills>) {
+        _skill.value = updatedSkills
+    }
+
+    fun updateEducation(updated: Education) {
+        _educationHistory.value = updated
+    }
+
 
 }

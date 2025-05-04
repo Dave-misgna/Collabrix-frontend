@@ -1,9 +1,15 @@
 package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
+import andorid.example.collabrix.View.StudentUi.EducationalHistoryEdit
 import andorid.example.collabrix.View.StudentUi.SideBar
+import andorid.example.collabrix.View.StudentUi.StudentDescriptionEdit
+import andorid.example.collabrix.View.StudentUi.UserProfileEdit
+import andorid.example.collabrix.View.StudentUi.UserSkillsEdit
+import andorid.example.collabrix.ViewModel.ProfileViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,6 +23,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +35,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
@@ -43,12 +54,19 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileEdit(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: ProfileViewModel = viewModel()
 ){
 
     //for the side bar
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    //for the viewmodel data
+    val profileedit by viewModel.studentcard.collectAsState()
+    val studentdescription by viewModel.about.collectAsState()
+    val myskills by viewModel.skill.collectAsState()
+    val myeducation by viewModel.educationHistory.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -105,44 +123,71 @@ fun ProfileEdit(
                 )
 
             }
-        ){
+        ){innerPadding->
             LazyColumn(
                 modifier = Modifier
-                    .padding(horizontal = 30.dp, vertical = 12.dp)
+                    .padding(innerPadding)
+                    .padding(horizontal = 25.dp)
                     .fillMaxSize()
+
             ) {
                 item {
-                    Text("My Profile", fontSize = 32.sp, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text("Profile Setting", fontSize = 26.sp, fontWeight = FontWeight.W700)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text("Manage your personal information and account")
+
+
+                        Text("My Profile", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text("Profile Setting", fontSize = 26.sp, fontWeight = FontWeight.W700)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text("Manage your personal information and account")
+
+
 
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(15.dp),
                         verticalAlignment = Alignment.CenterVertically
                         ) {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black
-                            ),
+                        Card(elevation = CardDefaults.cardElevation(8.dp)) {
+                            Button(
+                                onClick = {},
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.White,
+                                    contentColor = Color.Black
+                                ),
                             ) {
-                            Text("cancel")
+                                Text("cancel")
+                            }
                         }
 
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black,
-                                contentColor = Color.White
-                            ),
-                        ) {
-                            Text("Save Changes")
+                        Card(elevation = CardDefaults.cardElevation(8.dp)) {
+                            Button(
+                                onClick = {},
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Black,
+                                    contentColor = Color.White
+                                ),
+                            ) {
+                                Text("Save Changes")
+                            }
                         }
+
                     }
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    UserProfileEdit(profileedit)
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    StudentDescriptionEdit(studentdescription)
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    UserSkillsEdit(myskills)
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    EducationalHistoryEdit(myeducation)
+
                 }
             }
         }
