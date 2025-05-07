@@ -1,6 +1,6 @@
 package andorid.example.collabrix.ViewModel
 
-import andorid.example.collabrix.Model.StudentModel.ActiveProjects
+import andorid.example.collabrix.Data.Model.StudentModel.ActiveProjects
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

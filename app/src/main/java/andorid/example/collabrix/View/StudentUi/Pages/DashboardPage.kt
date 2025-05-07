@@ -2,7 +2,7 @@ package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
 import andorid.example.collabrix.View.StudentUi.MyProjects
-import andorid.example.collabrix.View.StudentUi.SideBar
+import andorid.example.collabrix.View.Common.SideBar
 import andorid.example.collabrix.ViewModel.DashboardViewModel
 
 import androidx.compose.foundation.Image

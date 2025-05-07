@@ -1,4 +1,4 @@
-package andorid.example.collabrix.View.StudentUi.Pages
+package andorid.example.collabrix.View.ProffessorUi.Pages
 
 import andorid.example.collabrix.R
 import andorid.example.collabrix.View.StudentUi.EducationalHistoryEdit
@@ -52,7 +52,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileEdit(
+fun ProfessorProfileEdit(
     navController: NavHostController,
     viewModel: ProfileViewModel = viewModel()
 ){
@@ -64,7 +64,7 @@ fun ProfileEdit(
     //for the viewmodel data
     val profileedit by viewModel.studentcard.collectAsState()
     val studentdescription by viewModel.about.collectAsState()
-//    val myskills by viewModel.skill.collectAsState()
+
     val myeducation by viewModel.educationHistory.collectAsState()
 
     ModalNavigationDrawer(

@@ -1,85 +1,43 @@
 package andorid.example.collabrix.ViewModel
 
-import andorid.example.collabrix.Model.StudentModel.AboutMe
-import andorid.example.collabrix.Model.StudentModel.Education
-import andorid.example.collabrix.Model.StudentModel.Skills
-import andorid.example.collabrix.Model.StudentModel.StudentProfile
+import andorid.example.collabrix.Data.Model.StudentModel.AboutMe
+import andorid.example.collabrix.Data.Model.StudentModel.Education
+import andorid.example.collabrix.Data.Model.StudentModel.Skills
+import andorid.example.collabrix.Data.Model.StudentModel.StudentProfile
+import andorid.example.collabrix.Data.Network.ApiClient
+import andorid.example.collabrix.Data.StudentRepository
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class ProfileViewModel: ViewModel(){
+class StudentViewModel(
+    private val studentRepository: StudentRepository
+) : ViewModel() {
 
-    // for the student profile card
-    private val _studentcard = MutableStateFlow(StudentProfile(
-        id = "1",
-        name = "Dawit Misgna",
-        department = "Software Engineering",
-        email = "dawit@gmail.com",
-        college = "Addis Ababa Institute Of Technology",
-        year = "3rd year",
-        image = Icons.Default.AccountCircle
-    ))
-    val studentcard: StateFlow<StudentProfile> = _studentcard
-
-    // for the aboutMe Card
-    private val _about = MutableStateFlow(AboutMe(
-        id = "1",
-        description = "I'm a Software Engineering student with a focus on machine learning and data science. " +
-                "I'm passionate about using technology to solve real-world problems and am looking for research opportunities to apply my skills."
-    ))
-    val about: StateFlow<AboutMe> = _about
-
-    //for the SKills List
-    private val _skill = MutableStateFlow<List<Skills>>(emptyList())
-    val skill: StateFlow<List<Skills>> = _skill
-
-    //for the education section Card
-    private val _educationHistory = MutableStateFlow(Education(
-        id = "1",
-        college = "Addis Ababa University",
-        department = "Software Enginnering",
-        year = "2023 - Process"
-    ))
-    val educationHistory:StateFlow<Education> = _educationHistory
+    private val _profile = mutableStateOf<StudentProfile?>(null)
+    val profile: State<StudentProfile?> = _profile
 
     init {
-        LoadSkills()
-    }
-    private fun LoadSkills(){
-        _skill.value = listOf(
-            Skills(
-                id = "1",
-                skill = "Java"
-            ),
-            Skills(
-                id = "2",
-                skill = "Python"
-            ),
-            Skills(
-                id = "3",
-                skill = "Web development"
-            )
-        )
+        loadProfile()
     }
 
-    fun updateStudentProfile(updated: StudentProfile) {
-        _studentcard.value = updated
+    private fun loadProfile() {
+        viewModelScope.launch {
+
+            val result = studentRepository.getProfile()
+            result.onSuccess { profileData ->
+                _profile.value = profileData
+            }
+        }
     }
 
-    fun updateAboutMe(updated: AboutMe) {
-        _about.value = updated
-    }
-
-    fun updateSkills(updatedSkills: List<Skills>) {
-        _skill.value = updatedSkills
-    }
-
-    fun updateEducation(updated: Education) {
-        _educationHistory.value = updated
-    }
-
-
+    fun refreshProfile() = loadProfile()
 }

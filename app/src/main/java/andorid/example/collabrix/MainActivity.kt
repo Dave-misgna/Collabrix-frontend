@@ -32,13 +32,13 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "studentdashboard"
+                        startDestination = "StudentDashboard"
                     ) {
                         composable("landingpage") { LandingPage(navController) }
                         composable("signup") { SignUp(navController) }
                         composable("signin") { Login(navController) }
                         composable("forgotpassword") { ForgotPassword(navController) }
-                        composable("studentdashboard") { StudentDashboard(navController) }
+                        composable("StudentDashboard") { StudentDashboard(navController) }
                         composable("BrowseResearch"){ BrowseResearch(navController) }
                         composable("MyApplication"){ MyApplications(navController) }
                         composable("MyProfile"){ ProfilePage(navController) }

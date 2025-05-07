@@ -1,13 +1,13 @@
 package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
+import andorid.example.collabrix.View.Common.SideBar
 import andorid.example.collabrix.View.StudentUi.DeleteAccount
 import andorid.example.collabrix.View.StudentUi.EducationalHistory
-import andorid.example.collabrix.View.StudentUi.SideBar
 import andorid.example.collabrix.View.StudentUi.StudentDescription
 import andorid.example.collabrix.View.StudentUi.UserProfile
 import andorid.example.collabrix.View.StudentUi.UserSkills
-import andorid.example.collabrix.ViewModel.ProfileViewModel
+import andorid.example.collabrix.ViewModel.StudentViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
@@ -30,7 +30,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -48,7 +47,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfilePage(
     navController: NavHostController,
-    viewModel: ProfileViewModel = viewModel()
+    viewModel: StudentViewModel = viewModel()
 ){
     //side bar navigation
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -56,12 +55,7 @@ fun ProfilePage(
 
     //importing from view model
 
-    val studentinfo by viewModel.studentcard.collectAsState()
-    val educationhistory by viewModel.educationHistory.collectAsState()
-    val aboutstudent by viewModel.about.collectAsState()
-    val studentskills by viewModel.skill.collectAsState()
-
-
+    val profile by viewModel.profile
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -145,7 +139,7 @@ fun ProfilePage(
                     }
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    UserProfile(studentinfo)
+                    UserProfile(profile = profile!!)
 
                     Spacer(modifier=Modifier.height(18.dp))
 
@@ -153,15 +147,15 @@ fun ProfilePage(
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    StudentDescription(aboutstudent)
+                    StudentDescription(aboutme = profile!!)
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    UserSkills(studentskills)
+                    UserSkills(skill = profile!!)
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    EducationalHistory(educationhistory)
+                    EducationalHistory(profile!!)
 
 
 

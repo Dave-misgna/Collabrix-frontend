@@ -1,4 +1,4 @@
-package andorid.example.collabrix.View.StudentUi
+package andorid.example.collabrix.View.ProffessorUi
 
 import andorid.example.collabrix.Data.Model.StudentModel.AboutMe
 import andorid.example.collabrix.Data.Model.StudentModel.Education
@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -65,7 +63,7 @@ fun UserProfileEdit(profile: StudentProfile){
                     shape = CircleShape,
                     modifier = Modifier.size(120.dp)
                 ) {
-                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
+                    Icon(profile.image, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
                 }
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -83,7 +81,7 @@ fun UserProfileEdit(profile: StudentProfile){
                     Box(contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxWidth()
                     ){
-                        Text("Student", fontWeight = FontWeight.W900)
+                        Text("Professor", fontWeight = FontWeight.W900)
                     }
 
                 }
@@ -139,7 +137,7 @@ fun UserProfileEdit(profile: StudentProfile){
 }
 
 @Composable
-fun StudentDescriptionEdit(aboutme: StudentProfile){
+fun StudentDescriptionEdit(aboutme: AboutMe){
 
     var description by remember { mutableStateOf(aboutme.description) }
     Card(
@@ -165,8 +163,8 @@ fun StudentDescriptionEdit(aboutme: StudentProfile){
 }
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun UserSkillsEdit(skill: StudentProfile) {
-    val skills = skill.skills
+fun UserSkillsEdit(skill: List<Skills>) {
+
     var myskill by remember { mutableStateOf("") }
     Card(
         elevation = CardDefaults.cardElevation(12.dp),

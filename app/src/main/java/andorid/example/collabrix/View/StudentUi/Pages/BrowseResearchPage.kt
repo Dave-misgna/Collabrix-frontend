@@ -2,8 +2,8 @@ package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
 import andorid.example.collabrix.View.StudentUi.RecommendedResearches
-import andorid.example.collabrix.View.StudentUi.SearchBar
-import andorid.example.collabrix.View.StudentUi.SideBar
+import andorid.example.collabrix.View.Common.SearchBar
+import andorid.example.collabrix.View.Common.SideBar
 import android.example.collabrix.ViewModel.BrowseResearchesViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

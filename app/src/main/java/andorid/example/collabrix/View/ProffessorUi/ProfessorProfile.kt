@@ -1,4 +1,4 @@
-package andorid.example.collabrix.View.StudentUi
+package andorid.example.collabrix.View.ProffessorUi
 
 import andorid.example.collabrix.Data.Model.StudentModel.AboutMe
 import andorid.example.collabrix.Data.Model.StudentModel.Education
@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun UserProfile(profile: StudentProfile){
+fun ProfessorProfile(profile: StudentProfile){
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
     ) {
@@ -53,7 +51,7 @@ fun UserProfile(profile: StudentProfile){
                     shape = CircleShape,
                     modifier = Modifier.size(120.dp)
                     ) {
-                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
+                    Icon(profile.image, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
                 }
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -81,9 +79,9 @@ fun UserProfile(profile: StudentProfile){
                     ) {
                     Text(profile.email, fontSize = 15.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier=Modifier.height(8.dp))
-                    profile.college?.let { Text(it, fontSize = 15.sp, fontWeight = FontWeight.Bold) }
+                    Text(profile.college, fontSize = 15.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier=Modifier.height(8.dp))
-                    profile.year?.let { Text(it, fontSize = 15.sp, fontWeight = FontWeight.Bold) }
+                    Text(profile.year, fontSize = 15.sp, fontWeight = FontWeight.Bold)
 
                 }
 
@@ -129,7 +127,7 @@ fun DeleteAccount(){
 }
 
 @Composable
-fun StudentDescription(aboutme: StudentProfile){
+fun StudentDescription(aboutme: AboutMe){
     Card(
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier.fillMaxWidth()
@@ -137,7 +135,7 @@ fun StudentDescription(aboutme: StudentProfile){
         Spacer(modifier = Modifier.height(6.dp))
         Text("About Me", fontSize = 30.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp))
         Spacer(modifier = Modifier.height(6.dp))
-        aboutme.description?.let { Text(it, modifier = Modifier.padding(10.dp)) }
+        Text(aboutme.description, modifier = Modifier.padding(10.dp))
 
 
 
@@ -147,7 +145,7 @@ fun StudentDescription(aboutme: StudentProfile){
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun UserSkills(skill: StudentProfile) {
+fun UserSkills(skill: List<Skills>) {
     Card(
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier
@@ -160,7 +158,7 @@ fun UserSkills(skill: StudentProfile) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            skill.skills?.forEach { skills ->
+            skill.forEach { skills ->
                 Card(
                     colors = CardDefaults.cardColors(containerColor = Color.Gray),
                     shape = RoundedCornerShape(12.dp)
@@ -177,7 +175,7 @@ fun UserSkills(skill: StudentProfile) {
 }
 
 @Composable
-fun EducationalHistory(education: StudentProfile){
+fun EducationalHistory(education: Education){
     Card (
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier.fillMaxWidth()
@@ -187,9 +185,9 @@ fun EducationalHistory(education: StudentProfile){
             modifier = Modifier.padding(10.dp)
         ) {
             Text("Education", fontSize = 30.sp, fontWeight = FontWeight.Bold)
-            education.college?.let { Text(it, fontSize = 24.sp) }
-            education.department?.let { Text(it,fontSize = 24.sp) }
-            education.year?.let { Text(it,fontSize = 24.sp) }
+            Text(education.college, fontSize = 24.sp)
+            Text(education.department,fontSize = 24.sp)
+            Text(education.year,fontSize = 24.sp)
 
 
         }

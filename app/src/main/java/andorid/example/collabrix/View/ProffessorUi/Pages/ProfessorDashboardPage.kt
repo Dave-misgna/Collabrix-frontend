@@ -1,14 +1,14 @@
-package andorid.example.collabrix.View.StudentUi.Pages
+package andorid.example.collabrix.View.ProffessorUi.Pages
 
 import andorid.example.collabrix.R
-import andorid.example.collabrix.View.StudentUi.PendingProjects
+import andorid.example.collabrix.View.StudentUi.MyProjects
 import andorid.example.collabrix.View.Common.SideBar
-import android.example.collabrix.ViewModel.BrowseResearchesViewModel
+import andorid.example.collabrix.ViewModel.DashboardViewModel
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,25 +44,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import androidx.lifecycle.viewmodel.compose.viewModel
+
+
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyApplications(
+fun ProfessorDashboard(
     navController: NavHostController,
-    viewModel: BrowseResearchesViewModel = viewModel()
-){
-    // for the side bar navigation
+    viewModel: DashboardViewModel = viewModel()
+
+) {
+    //the username who loged in
+    var name by remember { mutableStateOf("Dawit") }
+
+    // for the Side bar navigation
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    //selected button
-    var selected by remember { mutableStateOf("pending") }
-
-    //data from the view model
-    val choosenOption by viewModel.pending.collectAsState()
+    //viewmodel for the dashboard
+    val activeProjects by viewModel.projects.collectAsState()
+    val totalProjects by viewModel.totalAppliedProjects.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -77,9 +82,9 @@ fun MyApplications(
                 )
 
             }
-        },
+        }
+    ) {
 
-        ){
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -115,69 +120,110 @@ fun MyApplications(
                         elevation = 8.dp,
                         ambientColor = Color.Black,
                         spotColor = Color.Black
-                    )
+                        )
 
                 )
-
+//                Divider(color = Color.Black.copy(alpha = 0.3f), thickness = 1.dp)
             }
-        ){innerpadding ->
+        ) { innerpadding ->
             LazyColumn(
+
                 modifier = Modifier
                     .padding(innerpadding)
-                    .padding(horizontal = 30.dp, vertical = 12.dp)
+                    .padding(horizontal = 30.dp)
                     .fillMaxSize()
-            ){
+            ) {
                 item {
-                    Text("My Applications", fontSize = 32.sp, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text("Research Applications", fontSize = 26.sp, fontWeight = FontWeight.W700)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text("Track the status of your research Project Applications")
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    ) {
+                        Text(
+                            text = "Student Dashboard",
+                            fontSize = 32.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = "Welcome back, $name",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    //Applied projects box
+                    Card(
+                        modifier = Modifier
+                            .height(120.dp)
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.SpaceAround,
+                            modifier = Modifier.fillMaxSize()
+                                .padding(horizontal = 10.dp, vertical = 10.dp)
+                        ) {
+                            Text(
+                                text = "Applied Projects",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "${totalProjects.size}",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
+                    }
 
                     Spacer(modifier = Modifier.height(15.dp))
 
+                    //Active Projects indicator Box
                     Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(8.dp)
+                        modifier = Modifier
+                            .height(120.dp)
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        shape = RoundedCornerShape(22.dp)
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier.fillMaxWidth().background(Color.Gray),
-
-                            ) {
-
-                            val options = listOf("pending", "Approved", "Rejected")
-                            options.forEach { option ->
-                                Button(
-                                    onClick = { selected = option },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = if (selected == option) Color.White else Color.Transparent,
-                                        contentColor = Color.Black
-                                    ),
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                ) {
-                                    Text(option)
-                                }
-
-                            }
+                        Column(
+                            verticalArrangement = Arrangement.SpaceAround,
+                            modifier = Modifier.fillMaxSize()
+                                .padding(horizontal = 10.dp, vertical = 10.dp)
+                        ) {
+                            Text(
+                                text = "Active Projects",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "${activeProjects.size}",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
+
                     }
 
+                    Spacer(modifier = Modifier.height(28.dp))
+
+                    Text(
+                        text = "Your Active Projects",
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    //list of Active projects
+                    MyProjects(activeProjects)
 
 
-                    Spacer(modifier = Modifier.height(26.dp))
-
-                    // displaying the pages i built for each buttons
-                    when (selected) {
-                        "pending" ->  PendingProjects(choosenOption)
-                        "Approved" -> PendingProjects(choosenOption)
-                        "Rejected" -> PendingProjects(choosenOption)
-                    }
                 }
             }
+
         }
-
-
-
     }
 }

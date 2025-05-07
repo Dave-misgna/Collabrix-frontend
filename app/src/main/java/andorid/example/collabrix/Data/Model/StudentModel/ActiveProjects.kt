@@ -1,4 +1,4 @@
-package andorid.example.collabrix.Model.StudentModel
+package andorid.example.collabrix.Data.Model.StudentModel
 
 data class ActiveProjects(
     val id: String,
