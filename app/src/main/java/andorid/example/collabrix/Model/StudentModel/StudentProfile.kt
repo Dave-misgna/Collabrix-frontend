@@ -9,6 +9,6 @@ data class StudentProfile(
     val email: String,
     val college: String,
     val year: String,
-    val image: ImageVector
-
+    val skill: List<String>,
+    val description: String
 )

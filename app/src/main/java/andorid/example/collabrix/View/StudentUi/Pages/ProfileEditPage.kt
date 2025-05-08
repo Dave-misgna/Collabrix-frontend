@@ -64,9 +64,6 @@ fun ProfileEdit(
 
     //for the viewmodel data
     val profileedit by viewModel.studentcard.collectAsState()
-    val studentdescription by viewModel.about.collectAsState()
-    val myskills by viewModel.skill.collectAsState()
-    val myeducation by viewModel.educationHistory.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -178,15 +175,15 @@ fun ProfileEdit(
 
                     Spacer(modifier = Modifier.height(18.dp))
 
-                    StudentDescriptionEdit(studentdescription)
+                    StudentDescriptionEdit(profileedit)
 
                     Spacer(modifier = Modifier.height(18.dp))
 
-                    UserSkillsEdit(myskills)
+                    UserSkillsEdit(profileedit)
 
                     Spacer(modifier = Modifier.height(18.dp))
 
-                    EducationalHistoryEdit(myeducation)
+                    EducationalHistoryEdit(profileedit)
 
                 }
             }

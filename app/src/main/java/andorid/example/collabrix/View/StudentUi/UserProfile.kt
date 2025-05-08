@@ -1,15 +1,11 @@
-package andorid.example.collabrix.View.StudentUi
+package com.project.collabrix.ui.screens.Student.Components
 
-import andorid.example.collabrix.Model.StudentModel.AboutMe
-import andorid.example.collabrix.Model.StudentModel.Education
-import andorid.example.collabrix.Model.StudentModel.Skills
 import andorid.example.collabrix.Model.StudentModel.StudentProfile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -48,12 +45,12 @@ fun UserProfile(profile: StudentProfile){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 15.dp)
-                ){
+            ){
                 Card(
                     shape = CircleShape,
                     modifier = Modifier.size(120.dp)
-                    ) {
-                    Icon(profile.image, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
+                ) {
+                    Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "profile image", modifier = Modifier.fillMaxSize())
                 }
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -67,7 +64,7 @@ fun UserProfile(profile: StudentProfile){
                         contentColor = Color.White
                     ),
                     modifier = Modifier.width(70.dp).height(24.dp)
-                    ) {
+                ) {
                     Box(contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxWidth()
                     ){
@@ -78,7 +75,7 @@ fun UserProfile(profile: StudentProfile){
                 Spacer(modifier = Modifier.height(12.dp))
                 Column(horizontalAlignment = Alignment.Start,
                     modifier = Modifier.fillMaxWidth()
-                    ) {
+                ) {
                     Text(profile.email, fontSize = 15.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier=Modifier.height(8.dp))
                     Text(profile.college, fontSize = 15.sp, fontWeight = FontWeight.Bold)
@@ -102,7 +99,7 @@ fun DeleteAccount(){
         elevation = CardDefaults.cardElevation(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF8B7B7)),
         modifier = Modifier.fillMaxWidth()
-        ) {
+    ) {
         Spacer(modifier = Modifier.height(8.dp))
         Column(modifier = Modifier.padding( 20.dp), ) {
             Text("Danger Zone", fontSize = 30.sp, fontWeight = FontWeight.Bold)
@@ -129,7 +126,7 @@ fun DeleteAccount(){
 }
 
 @Composable
-fun StudentDescription(aboutme: AboutMe){
+fun StudentDescription(aboutme: StudentProfile){
     Card(
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier.fillMaxWidth()
@@ -147,7 +144,8 @@ fun StudentDescription(aboutme: AboutMe){
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun UserSkills(skill: List<Skills>) {
+fun UserSkills(skill: StudentProfile) {
+    val skill = skill.skill
     Card(
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier
@@ -166,7 +164,7 @@ fun UserSkills(skill: List<Skills>) {
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        text = skills.skill,
+                        text = skills,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         color = Color.White
                     )
@@ -177,7 +175,7 @@ fun UserSkills(skill: List<Skills>) {
 }
 
 @Composable
-fun EducationalHistory(education: Education){
+fun EducationalHistory(education: StudentProfile){
     Card (
         elevation = CardDefaults.cardElevation(12.dp),
         modifier = Modifier.fillMaxWidth()

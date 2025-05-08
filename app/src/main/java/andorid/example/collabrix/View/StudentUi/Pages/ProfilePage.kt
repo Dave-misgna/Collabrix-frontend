@@ -1,12 +1,7 @@
 package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
-import andorid.example.collabrix.View.StudentUi.DeleteAccount
-import andorid.example.collabrix.View.StudentUi.EducationalHistory
 import andorid.example.collabrix.View.StudentUi.SideBar
-import andorid.example.collabrix.View.StudentUi.StudentDescription
-import andorid.example.collabrix.View.StudentUi.UserProfile
-import andorid.example.collabrix.View.StudentUi.UserSkills
 import andorid.example.collabrix.ViewModel.ProfileViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -42,6 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.project.collabrix.ui.screens.Student.Components.DeleteAccount
+import com.project.collabrix.ui.screens.Student.Components.EducationalHistory
+import com.project.collabrix.ui.screens.Student.Components.StudentDescription
+import com.project.collabrix.ui.screens.Student.Components.UserProfile
+import com.project.collabrix.ui.screens.Student.Components.UserSkills
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,9 +57,7 @@ fun ProfilePage(
     //importing from view model
 
     val studentinfo by viewModel.studentcard.collectAsState()
-    val educationhistory by viewModel.educationHistory.collectAsState()
-    val aboutstudent by viewModel.about.collectAsState()
-    val studentskills by viewModel.skill.collectAsState()
+
 
 
 
@@ -153,15 +151,15 @@ fun ProfilePage(
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    StudentDescription(aboutstudent)
+                    StudentDescription(studentinfo)
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    UserSkills(studentskills)
+                    UserSkills(studentinfo)
 
                     Spacer(modifier=Modifier.height(18.dp))
 
-                    EducationalHistory(educationhistory)
+                    EducationalHistory(studentinfo)
 
 
 
