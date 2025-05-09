@@ -1,6 +1,6 @@
-package andorid.example.collabrix.View.StudentUi
+package andorid.example.collabrix.View.StudentUi.Components
 
-import andorid.example.collabrix.Model.StudentModel.StudentProfile
+import andorid.example.collabrix.data.model.StudentProfile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,8 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,13 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun UserProfileEdit(
-    profile: StudentProfile
+    profile: StudentProfile,
+    onProfileUpdate: (StudentProfile) -> Unit
 ) {
     var email by remember { mutableStateOf(profile.email) }
     var college by remember { mutableStateOf(profile.college) }
@@ -98,7 +96,10 @@ fun UserProfileEdit(
                         Text("Email:", fontWeight = FontWeight.Bold)
                         OutlinedTextField(
                             value = email,
-                            onValueChange = { email = it },
+                            onValueChange = { 
+                                email = it
+                                onProfileUpdate(profile.copy(email = it))
+                            },
                             placeholder = { Text(email) },
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp),
                             shape = RoundedCornerShape(8.dp),
@@ -111,7 +112,10 @@ fun UserProfileEdit(
                         Text("University/College:")
                         OutlinedTextField(
                             value = college,
-                            onValueChange = { college = it },
+                            onValueChange = { 
+                                college = it
+                                onProfileUpdate(profile.copy(college = it))
+                            },
                             placeholder = { Text(college) },
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp),
                             shape = RoundedCornerShape(8.dp),
@@ -124,7 +128,10 @@ fun UserProfileEdit(
                         Text("Year:")
                         OutlinedTextField(
                             value = year,
-                            onValueChange = { year = it },
+                            onValueChange = { 
+                                year = it
+                                onProfileUpdate(profile.copy(year = it))
+                            },
                             placeholder = { Text(year) },
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp),
                             shape = RoundedCornerShape(8.dp),
@@ -138,7 +145,8 @@ fun UserProfileEdit(
 
 @Composable
 fun StudentDescriptionEdit(
-    profile: StudentProfile
+    profile: StudentProfile,
+    onProfileUpdate: (StudentProfile) -> Unit
 ) {
     var description by remember { mutableStateOf(profile.description) }
 
@@ -151,7 +159,10 @@ fun StudentDescriptionEdit(
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
             value = description,
-            onValueChange = { description = it },
+            onValueChange = { 
+                description = it
+                onProfileUpdate(profile.copy(description = it))
+            },
             placeholder = { Text("Write something about your self.....") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -165,7 +176,8 @@ fun StudentDescriptionEdit(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun UserSkillsEdit(
-    profile: StudentProfile
+    profile: StudentProfile,
+    onProfileUpdate: (StudentProfile) -> Unit
 ) {
     var myskill by remember { mutableStateOf("") }
     var skills by remember { mutableStateOf(profile.skill) }
@@ -207,6 +219,7 @@ fun UserSkillsEdit(
                     onClick = {
                         if (myskill.isNotBlank()) {
                             skills = skills + myskill
+                            onProfileUpdate(profile.copy(skill = skills))
                             myskill = ""
                         }
                     },
@@ -222,7 +235,8 @@ fun UserSkillsEdit(
 
 @Composable
 fun EducationalHistoryEdit(
-    profile: StudentProfile
+    profile: StudentProfile,
+    onProfileUpdate: (StudentProfile) -> Unit
 ) {
     var college by remember { mutableStateOf(profile.college) }
     var department by remember { mutableStateOf(profile.department) }
@@ -239,19 +253,28 @@ fun EducationalHistoryEdit(
             Text("Education", fontSize = 30.sp, fontWeight = FontWeight.Bold)
             OutlinedTextField(
                 value = college,
-                onValueChange = { college = it },
+                onValueChange = { 
+                    college = it
+                    onProfileUpdate(profile.copy(college = it))
+                },
                 label = { Text("College/University") },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = department,
-                onValueChange = { department = it },
+                onValueChange = { 
+                    department = it
+                    onProfileUpdate(profile.copy(department = it))
+                },
                 label = { Text("Department") },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = year,
-                onValueChange = { year = it },
+                onValueChange = { 
+                    year = it
+                    onProfileUpdate(profile.copy(year = it))
+                },
                 label = { Text("Year") },
                 modifier = Modifier.fillMaxWidth()
             )

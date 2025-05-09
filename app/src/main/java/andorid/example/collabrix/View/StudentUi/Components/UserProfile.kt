@@ -1,6 +1,6 @@
-package com.project.collabrix.ui.screens.Student.Components
+package andorid.example.collabrix.View.StudentUi.Components
 
-import andorid.example.collabrix.Model.StudentModel.StudentProfile
+import andorid.example.collabrix.data.model.StudentProfile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

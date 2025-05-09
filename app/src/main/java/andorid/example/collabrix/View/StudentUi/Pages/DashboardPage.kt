@@ -1,42 +1,20 @@
 package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
-import andorid.example.collabrix.View.StudentUi.MyProjects
-import andorid.example.collabrix.View.StudentUi.SideBar
+import andorid.example.collabrix.View.StudentUi.Components.MyProjects
+import andorid.example.collabrix.View.StudentUi.Components.SideBar
 import andorid.example.collabrix.ViewModel.DashboardViewModel
-
+import andorid.example.collabrix.ViewModel.DashboardState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -44,31 +22,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StudentDashboard(
+fun DashboardPage(
     navController: NavHostController,
     viewModel: DashboardViewModel = viewModel()
-
 ) {
-    //the username who loged in
-    var name by remember { mutableStateOf("Dawit") }
-
     // for the Side bar navigation
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    //viewmodel for the dashboard
-    val activeProjects by viewModel.projects.collectAsState()
-    val totalProjects by viewModel.totalAppliedProjects.collectAsState()
+    // Collect state from ViewModel
+    val state by viewModel.state.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -77,14 +46,13 @@ fun StudentDashboard(
                 SideBar(
                     scope = scope,
                     drawerState = drawerState,
-                    onMenuItemClick = {route->
-                        navController.navigate(route)}
+                    onMenuItemClick = { route ->
+                        navController.navigate(route)
+                    }
                 )
-
             }
         }
     ) {
-
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -95,7 +63,6 @@ fun StudentDashboard(
                             fontWeight = FontWeight.Bold
                         )
                     },
-
                     actions = {
                         Image(
                             painter = painterResource(id = R.drawable.collabrixlogo),
@@ -120,16 +87,13 @@ fun StudentDashboard(
                         elevation = 8.dp,
                         ambientColor = Color.Black,
                         spotColor = Color.Black
-                        )
-
+                    )
                 )
-//                Divider(color = Color.Black.copy(alpha = 0.3f), thickness = 1.dp)
             }
-        ) { innerpadding ->
+        ) { innerPadding ->
             LazyColumn(
-
                 modifier = Modifier
-                    .padding(innerpadding)
+                    .padding(innerPadding)
                     .padding(horizontal = 30.dp)
                     .fillMaxSize()
             ) {
@@ -143,17 +107,10 @@ fun StudentDashboard(
                             fontSize = 32.sp,
                             fontWeight = FontWeight.Bold
                         )
-
-                        Text(
-                            text = "Welcome back, $name",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
                     }
                     Spacer(modifier = Modifier.height(18.dp))
 
-                    //Applied projects box
+                    // Applied projects box
                     Card(
                         modifier = Modifier
                             .height(120.dp)
@@ -163,7 +120,8 @@ fun StudentDashboard(
                     ) {
                         Column(
                             verticalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier
+                                .fillMaxSize()
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
                             Text(
@@ -172,17 +130,19 @@ fun StudentDashboard(
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "${totalProjects.size}",
+                                text = when (state) {
+                                    is DashboardState.Success -> "${(state as DashboardState.Success).totalAppliedProjects.size}"
+                                    else -> "0"
+                                },
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
-
                     }
 
                     Spacer(modifier = Modifier.height(15.dp))
 
-                    //Active Projects indicator Box
+                    // Active Projects indicator Box
                     Card(
                         modifier = Modifier
                             .height(120.dp)
@@ -192,7 +152,8 @@ fun StudentDashboard(
                     ) {
                         Column(
                             verticalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier
+                                .fillMaxSize()
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
                             Text(
@@ -201,12 +162,14 @@ fun StudentDashboard(
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "${activeProjects.size}",
+                                text = when (state) {
+                                    is DashboardState.Success -> "${(state as DashboardState.Success).activeProjects.size}"
+                                    else -> "0"
+                                },
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
-
                     }
 
                     Spacer(modifier = Modifier.height(28.dp))
@@ -217,13 +180,32 @@ fun StudentDashboard(
                         fontWeight = FontWeight.Bold
                     )
 
-                    //list of Active projects
-                    MyProjects(activeProjects)
-
-
+                    // List of Active projects
+                    when (state) {
+                        is DashboardState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                        is DashboardState.Error -> Text(
+                            text = (state as DashboardState.Error).message,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        is DashboardState.Success -> MyProjects(
+                            projects = (state as DashboardState.Success).activeProjects,
+                            isLoading = false,
+                            error = null,
+                            onProjectClick = { projectId ->
+                                // Handle project click
+                            }
+                        )
+                        else -> Text("No projects available")
+                    }
                 }
             }
-
         }
     }
 }

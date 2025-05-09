@@ -1,44 +1,21 @@
 package andorid.example.collabrix.View.StudentUi.Pages
 
 import andorid.example.collabrix.R
-import andorid.example.collabrix.View.StudentUi.PendingProjects
-import andorid.example.collabrix.View.StudentUi.SideBar
-import android.example.collabrix.ViewModel.BrowseResearchesViewModel
+import andorid.example.collabrix.View.StudentUi.Components.PendingProjects
+import andorid.example.collabrix.View.StudentUi.Components.SideBar
+import andorid.example.collabrix.ViewModel.MyApplicationsViewModel
+import andorid.example.collabrix.ViewModel.MyApplicationsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -46,26 +23,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyApplications(
+fun MyApplicationPage(
     navController: NavHostController,
-    viewModel: BrowseResearchesViewModel = viewModel()
-){
+    viewModel: MyApplicationsViewModel = viewModel()
+) {
     // for the side bar navigation
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    //selected button
+    // selected button
     var selected by remember { mutableStateOf("pending") }
 
-    //data from the view model
-    val choosenOption by viewModel.pending.collectAsState()
+    // data from the view model
+    val state by viewModel.state.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -74,14 +50,13 @@ fun MyApplications(
                 SideBar(
                     scope = scope,
                     drawerState = drawerState,
-                    onMenuItemClick = {route->
-                        navController.navigate(route)}
+                    onMenuItemClick = { route ->
+                        navController.navigate(route)
+                    }
                 )
-
             }
-        },
-
-        ){
+        }
+    ) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -92,7 +67,6 @@ fun MyApplications(
                             fontWeight = FontWeight.Bold
                         )
                     },
-
                     actions = {
                         Image(
                             painter = painterResource(id = R.drawable.collabrixlogo),
@@ -118,17 +92,15 @@ fun MyApplications(
                         ambientColor = Color.Black,
                         spotColor = Color.Black
                     )
-
                 )
-
             }
-        ){innerpadding ->
+        ) { innerpadding ->
             LazyColumn(
                 modifier = Modifier
                     .padding(innerpadding)
                     .padding(horizontal = 30.dp, vertical = 12.dp)
                     .fillMaxSize()
-            ){
+            ) {
                 item {
                     Text("My Applications", fontSize = 32.sp, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(10.dp))
@@ -144,10 +116,10 @@ fun MyApplications(
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier.fillMaxWidth().background(Color.Gray),
-
-                            ) {
-
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.Gray)
+                        ) {
                             val options = listOf("pending", "Approved", "Rejected")
                             options.forEach { option ->
                                 Button(
@@ -156,30 +128,64 @@ fun MyApplications(
                                         containerColor = if (selected == option) Color.White else Color.Transparent,
                                         contentColor = Color.Black
                                     ),
-                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
                                 ) {
                                     Text(option)
                                 }
-
                             }
                         }
                     }
 
-
-
                     Spacer(modifier = Modifier.height(26.dp))
 
-                    // displaying the pages i built for each buttons
-                    when (selected) {
-                        "pending" ->  PendingProjects(choosenOption)
-                        "Approved" -> PendingProjects(choosenOption)
-                        "Rejected" -> PendingProjects(choosenOption)
+                    when (state) {
+                        is MyApplicationsState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                        is MyApplicationsState.Error -> {
+                            Text(
+                                text = (state as MyApplicationsState.Error).message,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                        is MyApplicationsState.Success -> {
+                            val successState = state as MyApplicationsState.Success
+                            when (selected) {
+                                "pending" -> PendingProjects(
+                                    projects = successState.pendingProjects,
+                                    isLoading = false,
+                                    error = null,
+                                    onWithdrawClick = { projectId ->
+                                        viewModel.withdrawApplication(projectId)
+                                    }
+                                )
+                                "Approved" -> PendingProjects(
+                                    projects = successState.approvedProjects,
+                                    isLoading = false,
+                                    error = null,
+                                    onWithdrawClick = { /* No action for approved projects */ }
+                                )
+                                "Rejected" -> PendingProjects(
+                                    projects = successState.rejectedProjects,
+                                    isLoading = false,
+                                    error = null,
+                                    onWithdrawClick = { /* No action for rejected projects */ }
+                                )
+                            }
+                        }
+                        else -> {
+                            Text("No applications available")
+                        }
                     }
                 }
             }
         }
-
-
-
     }
 }

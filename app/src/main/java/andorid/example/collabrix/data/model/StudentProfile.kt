@@ -1,9 +1,7 @@
-package andorid.example.collabrix.Model.StudentModel
-
-import androidx.compose.ui.graphics.vector.ImageVector
+package andorid.example.collabrix.data.model
 
 data class StudentProfile(
-    val id: String,
+    val id: Int,
     val name: String,
     val department: String,
     val email: String,
